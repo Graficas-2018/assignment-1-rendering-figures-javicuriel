@@ -12,23 +12,34 @@
 
 <script type="text/javascript">
 
+function draw_figure(figure, pos, gl) {
+	mat4.identity(modelViewMatrix);
+	mat4.translate(modelViewMatrix, modelViewMatrix, pos);
+	draw(gl, figure);
+}
+
 // Jquery that detects the state of rediness. Code inside the function will only run once the page DOM is ready for Javascript code to execute.
 	$(document).ready(
 			function() {
                 var canvas = document.getElementById("webglcanvas");
-                
+
                 var gl = initWebGL(canvas);
                 initGL(gl, canvas);
-		        initViewport(gl, canvas);
+		        		initViewport(gl, canvas);
                 initShader(gl);
 
                 var square = createSquare(gl);
                 var triangle = createTriangle(gl);
                 var sphere = createSphere(gl, 0.5);
                 var rhombus = createRhombus(gl);
-                
+
+								d = -3.333;
                 // TO DO: Transform the different figure's positions, and draw them.
-                
+								draw_figure(square, [-1.0, 0.75, d], gl);
+								draw_figure(triangle, [1.0, 0.75, d], gl);
+								draw_figure(rhombus, [-1.0, -0.75, d], gl);
+								draw_figure(sphere, [1.0, -0.75, d], gl);
+
 			}
 	);
 </script>
@@ -41,4 +52,3 @@
 </body>
 
 </html>
-
