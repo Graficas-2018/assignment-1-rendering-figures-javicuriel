@@ -182,12 +182,12 @@ function sin(angle){
   return Math.sin(toRadians(angle));
 }
 
-function getShape(verts, nVerts, primtype ,gl){
+function getShape(verts, primtype ,gl){
   var vertexBuffer;
   vertexBuffer = gl.createBuffer();
   gl.bindBuffer(gl.ARRAY_BUFFER, vertexBuffer);
   gl.bufferData(gl.ARRAY_BUFFER, new Float32Array(verts), gl.STATIC_DRAW);
-  var shape = {buffer:vertexBuffer, vertSize:3, nVerts:nVerts, primtype};
+  var shape = {buffer:vertexBuffer, vertSize:3, nVerts:verts.length/3, primtype};
   return shape;
 }
 
@@ -200,7 +200,7 @@ function createSquare(gl)
       .5, -.5,  0.0,
       -.5, -.5,  0.0
     ];
-    var square = getShape(verts, 4, gl.TRIANGLE_STRIP, gl);
+    var square = getShape(verts, gl.TRIANGLE_STRIP, gl);
     return square;
 }
 
@@ -211,7 +211,7 @@ function createTriangle(gl)
       -.5, -.5, 0.0,
       .5, -.5, 0.0
     ];
-    var triangle = getShape(verts, 3, gl.TRIANGLE_STRIP, gl);
+    var triangle = getShape(verts, gl.TRIANGLE_STRIP, gl);
     return triangle;
 }
 
@@ -223,7 +223,7 @@ function createRhombus(gl)
       0.0, 0.5, 0.0,
       -0.5, 0.0, 0.0,
     ];
-    var rhombus = getShape(verts, 4, gl.TRIANGLE_STRIP, gl);
+    var rhombus = getShape(verts, gl.TRIANGLE_STRIP, gl);
     return rhombus;
 }
 
@@ -237,6 +237,26 @@ function createSphere(gl, radius)
     for (var i = start; i < end; i++) {
       verts.push(cos(i)*radius, sin(i)*radius, 0.0);
     }
-    var sphere = getShape(verts, end - start + 1, gl.TRIANGLE_FAN, gl);
+    var sphere = getShape(verts, gl.TRIANGLE_FAN, gl);
     return sphere;
+}
+
+
+function genericShape(start_angle, finish_angle, nTrian, radius, gl){
+  var verts = [0.0,0.0,0.0];
+
+  if(nTrian == 1) verts[1] = radius/2;
+
+  step = (finish_angle - start_angle)/nTrian
+
+  for (var i = start_angle; i <= finish_angle; i+= step) {
+    if(i > 360){
+      verts.push(cos(i-360)*radius, sin(i-360)*radius, 0.0);
+    }
+    else{
+      verts.push(cos(i)*radius, sin(i)*radius, 0.0);
+    }
+  }
+  return getShape(verts, gl.TRIANGLE_FAN, gl);
+
 }
