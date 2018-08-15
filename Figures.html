@@ -41,7 +41,9 @@ function draw_figure(figure, pos, gl) {
 								var triangle = genericShape(225, 315, 1, r, gl);
 								var sphere = genericShape(45, 315, 360, r, gl);
 								var rhombus = genericShape(0, 360, 4, r, gl);
+								var octa = genericShape(0, 360, 8, r, gl);
 
+								draw_figure(octa, [0.0 , 0.0, d], gl);
 								draw_figure(square, [-1.0, 0.75, d], gl);
 								draw_figure(triangle, [1.0, 0.75, d], gl);
 								draw_figure(rhombus, [-1.0, -0.75, d], gl);
